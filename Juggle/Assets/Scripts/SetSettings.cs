@@ -16,7 +16,7 @@ public class SetSettings : MonoBehaviour
     [SerializeField] Sprite muteIcon;
     public AudioMixer mixer;
     bool muted = false;
-    float maxVolumeLevel = 20.0f;
+    float maxVolumeLevel = 0f;
     float minVolumeLevel = -20.0f;
 
     string sfxMixerLabel = "SoundFXVolume";
@@ -27,6 +27,7 @@ public class SetSettings : MonoBehaviour
         if (PlayerPrefs.HasKey(SaveKeys.numBalls))
         {
             SettingsScript.maxBalls = PlayerPrefs.GetInt(SaveKeys.numBalls);
+            numBallDropdown.SetValueWithoutNotify(SettingsScript.maxBalls - 1);
         }
         else
         {
@@ -100,10 +101,12 @@ public class SetSettings : MonoBehaviour
     public void SetNumberBalls(int numBallsIndex)
     {
         SettingsScript.maxBalls = int.Parse(numBallDropdown.options[numBallsIndex].text);
+        PlayerPrefs.SetInt(SaveKeys.numBalls, SettingsScript.maxBalls);
     }
     public void SetNumberBalls()
     {
         SettingsScript.maxBalls = int.Parse(numBallDropdown.options[numBallDropdown.value].text);
+        PlayerPrefs.SetInt(SaveKeys.numBalls, SettingsScript.maxBalls);
     }
     public void SetMusicVolume(Single volume)
     {
@@ -114,7 +117,6 @@ public class SetSettings : MonoBehaviour
     {
         volume = Mathf.Clamp01(volume);
         SettingsScript.musicVolume = volume;
-        Debug.Log("Music: " + volume);
         if (volume > 0)
         {
             mixer.SetFloat(musicMixerLabel, minVolumeLevel + (maxVolumeLevel - minVolumeLevel) * volume);

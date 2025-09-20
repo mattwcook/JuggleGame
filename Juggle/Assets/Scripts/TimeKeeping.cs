@@ -8,6 +8,7 @@ public class TimeKeeping : MonoBehaviour
     float time = 0;
     float bestTime = 0;
     [SerializeField] TMP_Text bestTimeText;
+    [SerializeField] TMP_Text lastTime;
     [SerializeField] TMP_Text currentTimeText;
     bool timerRunning;
 
@@ -26,6 +27,7 @@ public class TimeKeeping : MonoBehaviour
     public void StopTimer()
     {
         timerRunning = false;
+        lastTime.text = "Last Time: " + time.ToString(".00");
         time = 0;
         currentTimeText.text = "Current Time: 0.00";
     }

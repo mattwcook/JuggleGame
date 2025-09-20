@@ -10,6 +10,7 @@ public class Ball : MonoBehaviour, Clickable
     float initialForceHorz = 3.0f;
     float clickForceVert = 15.0f;
     AudioSource audioSource;
+    [SerializeField] Collider trailCollider;
     [SerializeField] SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -80,12 +81,39 @@ public class Ball : MonoBehaviour, Clickable
         SpriteRenderer spriteRenderer = parent.GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
-            spriteRenderer.sortingOrder = order;
+            spriteRenderer.sortingOrder += order;
         }
         foreach(Transform child in parent)
         {
             SetRenderOrder(order, child);
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (trailCollider != null)
+        {
+            //Debug.Log(rb.velocity.magnitude);
+            //if(rb.velocity.magnitude >= 10)
+            //{
+            //    Debug.Log("Fast");
+            //}
+            trailCollider.gameObject.SetActive(rb.velocity.y <= -9);
+        }
+
+    }
+    //private void Update()
+    //{
+    //    if (Input.GetKey(KeyCode.Space))
+    //    {
+    //        rb.velocity = Vector3.zero;
+    //        rb.useGravity = false;
+    //    }
+    //}
+
+    //private void OnMouseDown()
+    //{
+    //    OnClickDown();
+    //}
 
 }

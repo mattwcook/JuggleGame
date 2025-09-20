@@ -16,16 +16,25 @@ public class ClickListener : MonoBehaviour
     {
         if (Input.touchSupported)
         {
+            //Debug.Log("Touch Count " + Input.touchCount);
             if (Input.touchCount > 0 && clickStart == false)
             {
+                Debug.Log("Touch Down");
                 clickStart = true;
                 ClickDown(Input.touches[0].position);
             }
+            else if (Input.touchCount == 0 && clickStart == true)
+            {
+                Debug.Log("Touch Up");
+                clickStart = false;
+            }
         }
-        else if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("Mouse Down");
             ClickDown(Input.mousePosition);
         }
+        
     }
     void ClickDown(Vector2 clickPosition)
     {
