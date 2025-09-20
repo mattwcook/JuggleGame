@@ -27,6 +27,7 @@ public class MusicController : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > songLength)
         {
+            timer = 0;
             trackNumber = (trackNumber + 1) % songList.Length;
             currentTrack = songList[trackNumber];
             audioSource.PlayOneShot(currentTrack);
