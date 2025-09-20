@@ -26,8 +26,11 @@ public class TimeKeeping : MonoBehaviour
     }
     public void StopTimer()
     {
+        if (timerRunning == true)
+        {
+            lastTime.text = "Last Time: " + time.ToString(".00");
+        }
         timerRunning = false;
-        lastTime.text = "Last Time: " + time.ToString(".00");
         time = 0;
         currentTimeText.text = "Current Time: 0.00";
     }
