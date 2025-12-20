@@ -19,10 +19,10 @@ public class Test : MonoBehaviour, Clickable
     // Update is called once per frame
     void Update()
     {
-       //if (Input.GetKeyDown(KeyCode.Space))
-       //{
-       //    Debug.Log("Space Pressed");
-       //}
+       if (Input.GetKeyDown(KeyCode.Space))
+       {
+            GetComponent<Rigidbody>().AddExplosionForce(100, Vector3.zero, 100);
+       }
        //if (Input.GetMouseButtonDown(0))
        //{
        //    Debug.Log("Mouse Down");

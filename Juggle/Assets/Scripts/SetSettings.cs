@@ -6,9 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 using System;
 
-public class SetSettings : MonoBehaviour
+public class SetSettings : BallSettingsController
 {
-    [SerializeField] TMP_Dropdown numBallDropdown;
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider sfxSlider;
     [SerializeField] Image muteButtonImage;
@@ -71,13 +70,16 @@ public class SetSettings : MonoBehaviour
         }
         else
         {
-            muteButtonImage.sprite = soundIcon;
-            float musicVolume;
+            if (muteButtonImage != null)
+            {
+                muteButtonImage.sprite = soundIcon;
+            }
+            float musicVolume = maxVolumeLevel;
             if (PlayerPrefs.HasKey(SaveKeys.musicVolume))
             {
                 musicVolume = PlayerPrefs.GetFloat(SaveKeys.musicVolume);
             }
-            else
+            else if (musicSlider != null)
             {
                 musicVolume = musicSlider.maxValue;
             }
@@ -98,16 +100,7 @@ public class SetSettings : MonoBehaviour
         }
     }
 
-    public void SetNumberBalls(int numBallsIndex)
-    {
-        SettingsScript.maxBalls = int.Parse(numBallDropdown.options[numBallsIndex].text);
-        PlayerPrefs.SetInt(SaveKeys.numBalls, SettingsScript.maxBalls);
-    }
-    public void SetNumberBalls()
-    {
-        SettingsScript.maxBalls = int.Parse(numBallDropdown.options[numBallDropdown.value].text);
-        PlayerPrefs.SetInt(SaveKeys.numBalls, SettingsScript.maxBalls);
-    }
+   
     public void SetMusicVolume(Single volume)
     {
         SetMusicVolume(volume, true);

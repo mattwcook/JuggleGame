@@ -19,19 +19,16 @@ public class ClickListener : MonoBehaviour
             //Debug.Log("Touch Count " + Input.touchCount);
             if (Input.touchCount > 0 && clickStart == false)
             {
-                Debug.Log("Touch Down");
                 clickStart = true;
                 ClickDown(Input.touches[0].position);
             }
             else if (Input.touchCount == 0 && clickStart == true)
             {
-                Debug.Log("Touch Up");
                 clickStart = false;
             }
         }
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse Down");
             ClickDown(Input.mousePosition);
         }
         
@@ -40,15 +37,26 @@ public class ClickListener : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(clickPosition);
         RaycastHit[] hits = Physics.RaycastAll(Camera.main.ScreenToWorldPoint(clickPosition), Vector3.forward);
-
+        List<Clickable> detectedClickables = new List<Clickable>();
         foreach (RaycastHit hit in hits)
-        //if (Physics.RaycastAll(ray, out RaycastHit[] hit))
         {
             Clickable clickable = hit.transform.GetComponent<Clickable>();
-            if (clickable != null)
+            if (clickable != null && detectedClickables.Contains(clickable) == false)
             {
+                detectedClickables.Add(clickable);
                 clickable.OnClickDown();
+                
             }
+            
         }
     }
+
+    //Transform GetParentRigidBody(Transform toSearch)
+    //{
+    //    if(toSearch.GetComponent<Rigidbody>() != null)
+    //    {
+    //        return toSearch;
+    //    }
+    //    return GetParentRigidBody(toSearch.parent);
+    //}
 }

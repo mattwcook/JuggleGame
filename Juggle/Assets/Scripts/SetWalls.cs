@@ -27,6 +27,16 @@ public class SetWalls : MonoBehaviour
         backdropPositions[0] = new Vector3(0, viewHeight, 0);
         backdropPositions[1] = new Vector3(0, -viewHeight, 0);
         backdrop.SetPositions(backdropPositions);
+        CustomEvents.onDisableWalls += DisableWalls;
+    }
+    void DisableWalls()
+    {
+        leftWall.gameObject.SetActive(false);
+        rightWall.gameObject.SetActive(false);
+    }
+    private void OnDestroy()
+    {
+        CustomEvents.onDisableWalls -= DisableWalls;
     }
 
 

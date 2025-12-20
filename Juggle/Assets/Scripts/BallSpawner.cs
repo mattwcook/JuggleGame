@@ -2,84 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallSpawner : MonoBehaviour
-{
-    int maxBalls;
-    int currentBalls = 0;
-    float startHeight;
-    float viewWidth;
-    public GameObject ball;
-    public Transform ballParent;
-    float timer = 0;
+public class BallSpawner : Spawner
+{    
+    float spawnTimer = 0;
 
     public TimeKeeping timeKeeper;
     // Start is called before the first frame update
-    void Awake()
+    protected override void Awake()
     {
         maxBalls = SettingsScript.maxBalls;
-        for(int i = 0; i < maxBalls; i++)
-        {
-            GameObject newBall = Instantiate(ball, ballParent);
-            if (newBall.GetComponent<Ball>() != null)
-            {
-                newBall.GetComponent<Ball>().SetRenderOrder(i);
-            }
-            newBall.SetActive(false);
-        }
-        startHeight = -(ViewSize.GetViewHeight() + ball.transform.lossyScale.y + 1);
-        viewWidth = ViewSize.GetViewWidth();
+        InitializeBalls(maxBalls);
     }
-    IEnumerator WaitBallSpawn()
+
+    protected virtual void Update()
     {
-        yield return new WaitForSeconds(SettingsScript.timeBetweenBalls);
-        SpawnBall();
-    }
-    private void Update()
-    {
+        //Debug.Log(currentBalls + " < " + maxBalls + ": " + (currentBalls < maxBalls));
         if (currentBalls < maxBalls)
         {
-            timer += Time.deltaTime;
-            if (timer >= SettingsScript.timeBetweenBalls)
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer >= SettingsScript.timeBetweenBalls)
             {
                 SpawnBall();
-                timer = 0;
+                spawnTimer = 0;
             }
         }
     }
-    public void BallFell()
+    public override void SpawnBall()
     {
-        //StartCoroutine(WaitBallSpawn());
-        currentBalls -= 1;
-        timeKeeper.StopTimer();
-    }
-
-    public void SpawnBall()
-    {
-        Transform ballToSpawn = GetNextBall();
-
-        if(ballToSpawn == null)
-        {
-            return;
-        }
-        float xPosition = Random.Range(-(viewWidth - ball.transform.lossyScale.x), viewWidth - ball.transform.lossyScale.x);
-        ballToSpawn.position = new Vector3(xPosition, startHeight, 0);
-        ballToSpawn.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        ballToSpawn.gameObject.SetActive(true);
-        currentBalls++;
-        if (currentBalls >= maxBalls)
+        base.SpawnBall();
+        if (currentBalls >= maxBalls && timeKeeper != null)
         {
             timeKeeper.StartTimer();
         }
     }
-    Transform GetNextBall()
+    public override void BallGone()
     {
-        foreach(Transform child in ballParent.transform)
+        base.BallGone();
+        if (timeKeeper != null)
         {
-            if (child.gameObject.activeSelf == false)
-            {
-                return child;
-            }
+            timeKeeper.StopTimer();
         }
-        return null;
     }
+    
+
+    
+    
 }

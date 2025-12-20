@@ -3,44 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Ball : MonoBehaviour, Clickable
+public class Ball : Balloid
 {
-    Rigidbody rb;
-    float initialForceVert = 15.0f;
-    float initialForceHorz = 3.0f;
+    
+    
     float clickForceVert = 15.0f;
-    AudioSource audioSource;
-    [SerializeField] Collider trailCollider;
+    
+    
     [SerializeField] SpriteRenderer spriteRenderer;
 
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
+    
     // Start is called before the first frame update
-    void OnEnable()
+    protected override void OnEnable()
     {
-        float horzForce;
-        if (transform.position.x >= Camera.main.transform.position.x)
-        {
-            horzForce = Random.Range(-initialForceHorz, 0);
-        }
-        else
-        {
-            horzForce = Random.Range(0, initialForceHorz);
-        }
+        base.OnEnable();
         RandomizeAppearance();
-        Launch(initialForceVert, horzForce); 
     }
 
-    void Launch(float vertical, float lateral)
-    {
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody>();
-        }
-        rb.AddForce(new Vector3(lateral, vertical, 0), ForceMode.Impulse);
-    }
+    
     void LaunchVelocity(float vertical)
     {
         if (rb == null)
@@ -51,14 +31,17 @@ public class Ball : MonoBehaviour, Clickable
         rb.velocity = new Vector3(Random.Range(-3.0f,3.0f), vertical, 0);
     }
 
-    public void OnClickDown()
+    public override void OnClickDown()
     {
+        base.OnClickDown();
+        if (gameOver == true)
+        {
+            return;
+        }
         //Launch(clickForceVert, 0);
         LaunchVelocity(10);
-        if (audioSource != null)
-        {
-            audioSource.Play();
-        }
+        CustomEvents.AddPoints(1);
+        
     }
 
     void RandomizeAppearance()
@@ -72,36 +55,9 @@ public class Ball : MonoBehaviour, Clickable
             spriteRenderer.color = new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f));
         }
     }
-    public void SetRenderOrder(int order, Transform parent = null)
-    {
-        if (parent == null)
-        {
-            parent = transform;
-        }
-        SpriteRenderer spriteRenderer = parent.GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.sortingOrder += order;
-        }
-        foreach(Transform child in parent)
-        {
-            SetRenderOrder(order, child);
-        }
-    }
+    
 
-    private void FixedUpdate()
-    {
-        if (trailCollider != null)
-        {
-            //Debug.Log(rb.velocity.magnitude);
-            //if(rb.velocity.magnitude >= 10)
-            //{
-            //    Debug.Log("Fast");
-            //}
-            trailCollider.gameObject.SetActive(rb.velocity.y <= -9);
-        }
-
-    }
+    
     //private void Update()
     //{
     //    if (Input.GetKey(KeyCode.Space))

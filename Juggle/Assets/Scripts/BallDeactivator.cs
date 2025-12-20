@@ -5,12 +5,24 @@ using UnityEngine;
 public class BallDeactivator : MonoBehaviour
 {
     public BallSpawner ballSpawner;
+    public GameOverManager gameOverManager;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6)
         {
             other.gameObject.SetActive(false);
-            ballSpawner.BallFell();
+            if (ballSpawner != null)
+            {
+                ballSpawner.BallGone();
+            }
+            if(gameOverManager != null)
+            {
+                gameOverManager.GameOver();
+            }
         }
+        else if (other.gameObject.layer == 7)
+            {
+                other.gameObject.SetActive(false);
+            }
     }
 }

@@ -8,5 +8,7 @@ public static class SaveKeys
     public static string soundEffectVolume = "SoundEffectVolume";
     public static string mute = "Mute";
     public static string numBalls = "NumBalls";
-    public static string bestTimeBase = "BestTime";
+    public static string bestCasualTimeBase = "BestCasualTime";
+    public static string bestArcadeScoreBase = "BestArcadeScore";
+    public static string lastGameMode = "GameMode";
 }

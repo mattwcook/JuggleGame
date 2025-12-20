@@ -5,11 +5,13 @@ using UnityEngine;
 public class MusicController : MonoBehaviour
 {
     [SerializeField] AudioClip[] songList;
+    [SerializeField] AudioClip gameOverMusic;
     AudioClip currentTrack;
     float timer = 0;
     float songLength;
     AudioSource audioSource;
     int trackNumber;
+    bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,13 +27,28 @@ public class MusicController : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer > songLength)
+        if (timer > songLength && gameOver == false)
         {
+            audioSource.Stop();
             timer = 0;
             trackNumber = (trackNumber + 1) % songList.Length;
-            currentTrack = songList[trackNumber];
-            audioSource.PlayOneShot(currentTrack);
+            //currentTrack = songList[trackNumber];
+            //audioSource.PlayOneShot(currentTrack);
+            audioSource.clip = songList[trackNumber];
+            audioSource.Play();
             songLength = currentTrack.length;
         }
+    }
+
+    public void GameOver()
+    {
+        audioSource.Stop();
+        audioSource.clip = gameOverMusic;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+    public void StopMusic()
+    {
+        audioSource.Stop();
     }
 }
