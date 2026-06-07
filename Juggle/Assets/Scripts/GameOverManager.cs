@@ -12,6 +12,7 @@ public class GameOverManager : MonoBehaviour
     [SerializeField] GameObject inGameUi;
     [SerializeField] ArcadeScoreKeeper scoreKeeper;
     [SerializeField] MusicController musicController;
+    [SerializeField] TMP_Dropdown numBallsDropdown;
     bool alreadyDone = false;
 
     private void Awake()
@@ -61,7 +62,7 @@ public class GameOverManager : MonoBehaviour
         gameOverNumBallsText.text = SettingsScript.maxBalls + " Balls";
         highScoreText.text = "High Score: " + scoreKeeper.GetHighScore();
         currentScoreText.text = "Score: " + scoreKeeper.GetScore();
-
+        numBallsDropdown.SetValueWithoutNotify(SettingsScript.maxBalls - 1);
     }
     private void OnDestroy()
     {

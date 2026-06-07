@@ -6,7 +6,7 @@ public class Bomb : PowerUp
 {
     float explosionForce = 1000;
     float explosionRadius;
-    new protected float initialForceVert = 23.0f;
+    protected float initialForceVertical = 23.0f;
 
     //float disableDelay = 1.5f;
     float gameOverDelay = 1;
@@ -53,7 +53,7 @@ public class Bomb : PowerUp
     }
     public override float GetInitialForce()
     {
-        return initialForceVert;
+        return initialForceVertical;
     }
 
 

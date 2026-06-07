@@ -1496,6 +1496,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f6461e03705d84996dcf29bf3516a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoomSpeed: 2
+  minSize: 25
+  maxSize: 60
 --- !u!4 &701240478
 Transform:
   m_ObjectHideFlags: 0
@@ -4368,6 +4371,7 @@ MonoBehaviour:
   inGameUi: {fileID: 1719574405}
   scoreKeeper: {fileID: 1954621386}
   musicController: {fileID: 1474101633}
+  numBallsDropdown: {fileID: 1248080343}
 --- !u!114 &1954621390
 MonoBehaviour:
   m_ObjectHideFlags: 0
