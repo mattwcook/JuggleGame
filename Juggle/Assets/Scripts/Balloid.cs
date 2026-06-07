@@ -49,7 +49,7 @@ public class Balloid : MonoBehaviour, Clickable
         {
             horzForce = Random.Range(0, initialForceHorz);
         }
-        Launch(initialForceVert, horzForce);
+        Launch(GetInitialForce(), horzForce);
     }
     void Launch(float vertical, float lateral)
     {
@@ -87,6 +87,10 @@ public class Balloid : MonoBehaviour, Clickable
         {
             SetRenderOrder(order, child);
         }
+    }
+    public virtual float GetInitialForce()
+    {
+        return initialForceVert;
     }
     private void OnDestroy()
     {

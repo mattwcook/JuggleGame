@@ -6,6 +6,7 @@ public class Bomb : PowerUp
 {
     float explosionForce = 1000;
     float explosionRadius;
+    new protected float initialForceVert = 23.0f;
 
     //float disableDelay = 1.5f;
     float gameOverDelay = 1;
@@ -46,8 +47,16 @@ public class Bomb : PowerUp
             }
         }
     }
-    
-    
+    private void Update()
+    {
+        GetComponent<Rigidbody>().AddForce(0, -1.5f, 0, ForceMode.Force);
+    }
+    public override float GetInitialForce()
+    {
+        return initialForceVert;
+    }
+
+
     IEnumerator DelayedGameOver()
     {
         yield return new WaitForSeconds(gameOverDelay);

@@ -23,6 +23,7 @@ public static class ViewSize
     }
     static void CalculateDimensions()
     {
-        sceneDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        sceneDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, .3f));
+        Debug.Log("Scene Dimensions: " + sceneDimensions);
     }
 }
