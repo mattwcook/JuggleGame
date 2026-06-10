@@ -16,6 +16,7 @@ public class Test : MonoBehaviour
     void Start()
     {
         cam = Camera.main.GetComponent<Camera>();
+        Application.targetFrameRate = 30;
     }
 
     void Update()

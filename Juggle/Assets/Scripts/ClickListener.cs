@@ -21,6 +21,7 @@ public class ClickListener : MonoBehaviour
             {
                 clickStart = true;
                 ClickDown(Input.touches[0].position);
+                return;
             }
             else if (Input.touchCount == 0 && clickStart == true)
             {
@@ -30,6 +31,7 @@ public class ClickListener : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             ClickDown(Input.mousePosition);
+            return;
         }
         
     }
